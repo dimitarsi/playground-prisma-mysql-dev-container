@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    env_file:
+      - .env.db
+  schema-service:
+    image: node:18
+    volumes:
+      - ./workspace:/workspace
+    env_file:
+      - .env.db
+    depends_on:
+      - db
